@@ -11,6 +11,10 @@ $( document ).ready(function() {
     apiKey = localStorage.getItem('apiKey');
     $('#apiKeyInput').val(apiKey);
     $('#apiKeyInput').prop("disabled", true);
+    $('#apiKeySaveButton').hide();
+  } else {
+    $('#apiKeySaveButton').show();
+    $('#apiKeyClearButton').hide();
   }
 
   $('#apiKeyInput').keypress(function(e) {
@@ -28,6 +32,8 @@ $( document ).ready(function() {
       console.log('API-Key: ' + apiKeyFromInput + ' stored.');
       apiKey = apiKeyFromInput;
       $('#apiKeyInput').prop("disabled", true);
+      $('#apiKeySaveButton').hide();
+      $('#apiKeyClearButton').show();
     }
   });
 
@@ -38,6 +44,8 @@ $( document ).ready(function() {
     console.log('API-Key removed!');
     apiKey = '';
     $('#apiKeyInput').prop("disabled", false);
+    $('#apiKeySaveButton').show();
+    $('#apiKeyClearButton').hide();
   });
 
   $('#movie').on('click', function(e) {
