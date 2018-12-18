@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Parser4Infuse</title>
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Parser4Infuse</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <!-- <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul> -->
+          <div class="navbar-form navbar-right">
+            <div class="form-group">
+              <input id="apiKeyInput" type="text" class="form-control" placeholder="TMDB API-Key" size="35">
+            </div>
+            <button id="apiKeySaveButton" class="btn btn-success">Save</button>
+            <button id="apiKeyClearButton" class="btn btn-danger">Clear</button>
+          </div>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="input-group">
+        <div class="input-group-btn">
+          <button id="typeSelect" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" value="movie">
+            Movie <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#" id="movie">Movie</a></li>
+            <li><a href="#" id="tvshow">TV-Show</a></li>
+          </ul>
+        </div><!-- /btn-group -->
+        <input type="text" class="form-control" placeholder="Nach Titel suchen" id="searchTitle">
+        <span class="input-group-btn"><button id="search" class="btn btn-primary" type="button">Suchen</button></span>
+      </div>
+
+      <br class="clearfix">
+
+      <div class="row text-center selection"></div>
+
+      <br class="clearfix">
+
+      <div class="form-group">
+        <label for="title">Titel</label>
+        <input type="text" class="form-control" placeholder="Titel" id="title">
+      </div><!-- /form-group -->
+
+      <div class="form-group">
+        <label for="description">Beschreibung</label>
+        <textarea class="form-control" id="description" rows="5"></textarea>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Altersfreigabe</label>
+            <div class="input-group-btn">
+              <button id="ratingSelect" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Altersfreigabe <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="#" id="fsk0">FSK-0</a></li>
+                <li><a href="#" id="fsk6">FSK-6</a></li>
+                <li><a href="#" id="fsk12">FSK-12</a></li>
+                <li><a href="#" id="fsk16">FSK-16</a></li>
+                <li><a href="#" id="fsk18">FSK-18</a></li>
+              </ul>
+            </div><!-- /btn-group -->
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label>Bewertung</label>
+          <div class="input-group">
+            <div class="btn-group" role="group">
+              <button id="decRating" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></button>
+              <button id="userRating" type="button" class="btn btn-default" value="5">5</button>
+              <button id="incRating" type="button" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <div class="input-group">
+              <label for="date">Veröffentlicht</label>
+              <input type="date" class="form-control" placeholder="YYYY-MM-DD" id="date">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group actors"></div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group genres"></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group producers"></div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group directors"></div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group writers"></div>
+        </div>
+      </div>
+
+
+      <div class="input-group">
+        <button id="finalize" class="btn btn-primary">XML Generieren</button>
+        <!-- <button id="parze" class="btn btn-primary">Parse</button> -->
+      </div>
+
+
+    </div><!-- /.container -->
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="node_modules/file-saver/FileSaver.min.js"></script>
+  <script src="node_modules/handlebars/dist/handlebars.min.js"></script>
+
+  <script id="multiInput" type="text/x-handlebars-template">
+    <label for="{{type}}1">{{types}}</label>
+    <div class="form-group input-group">
+      <input type="text" class="form-control" placeholder="{{placeholder}}" id="{{type}}1">
+      <span class="input-group-btn">
+        <button id="{{addButton}}" class="btn btn-success" type="button">
+          <span class="glyphicon glyphicon-plus"></span>
+        </button>
+      </span>
+    </div>
+  </script>
+
+  <script id="movieSelection" type="text/x-handlebars-template">
+    <div class="col-md-3">
+      <a href="#" class="d-block mb-4 h-100" id="{{id}}">
+        <img class="img-fluid img-thumbnail" src="{{source}}" alt="poster">
+      </a>
+      <p>{{title}}</p>
+    </div>
+  </script>
+
+  <script src="index.js"></script>
+</body>
+</html>
